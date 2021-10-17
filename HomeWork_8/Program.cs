@@ -10,6 +10,7 @@ namespace HomeWork_8
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
