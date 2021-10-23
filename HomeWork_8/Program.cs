@@ -10,16 +10,6 @@ namespace HomeWork_8
     {
         static void Main(string[] args)
         {
-            Random rnd = new Random();
-            Worker w1 = new Worker("Петя", "Сидоров", 18, 50_000, 2, 1);
-            Worker w2 = new Worker("Виктор", "Сычев", 20, 90_000, 5, 2);
-
-            Department d1 = new Department("Программисты");
-            Department d2 = new Department("Управление");
-
-            d1.Add(w1);
-            d1.DeleteFromDepartment(w2);
-
             Company c = new Company();
 
             for(; ; )
@@ -116,39 +106,6 @@ namespace HomeWork_8
                 else 
             }
 
-
-
-            //Console.WriteLine("Введите имя для нового департамента");
-            //string name = Console.ReadLine();
-            //Department d = new Department(name);
-            //for(; ; )
-            //{
-            //    Console.WriteLine("Если вы хотите добавить сотрудника, то нажмите 1" +
-            //        "Если вы хотите удалить сотрудника из департамента, то нажмите 2" +
-            //        "Если вы хотите редактировать департамент, то нажмите 3");
-            //    string answer = "";
-            //    if (answer == "1")
-            //    {
-
-            //        d.Add();
-            //    }
-            //    else if (answer == "2")
-            //    {
-            //        d.DeleteFromDepartment();
-            //    }
-            //    else if (answer == "3")
-            //    {
-            //        d.Edit();
-            //    }
-            //    else 
-            //    {
-
-            //    } 
-            //}
-            
-
-            ////Dictionary<int, string> dic1 = new Dictionary<int, string>();
-            ////dic1.Add(w1.Id, d1.Name);
             Console.ReadLine();
 
         }

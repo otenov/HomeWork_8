@@ -12,6 +12,9 @@ namespace HomeWork_8
 
         public List<Worker> peoples;
 
+        /// <summary>
+        /// Создание сотрудника без определения в департамент
+        /// </summary>
         public void CreateWorker()
         {
             string name = Console.ReadLine();
@@ -24,6 +27,11 @@ namespace HomeWork_8
             peoples.Add(w);
         }
 
+        /// <summary>
+        /// Создание сотрудника с определением в департамент
+        /// </summary>
+        /// <param name="d">Департамент, в который будет определен сотрудник</param>
+        /// <returns>Сотрудник, состоящий в департаменте</returns>
         public Worker CreateWorker(Department d)
         {
             string name = Console.ReadLine();
@@ -37,6 +45,11 @@ namespace HomeWork_8
             return w;
         }
 
+        /// <summary>
+        /// Удаление сотрудника из компании по id.
+        /// Удаление из списка сотрудников и одновременно из департамента
+        /// </summary>
+        /// <param name="id">Уникальный номер сотрудника</param>
         public void DeleteWorker(int id)
         {
             foreach (var item in peoples)
@@ -52,17 +65,33 @@ namespace HomeWork_8
             }
         }
 
+        /// <summary>
+        /// Создание департамента
+        /// </summary>
+        /// <param name="name">Название департамента</param>
         public void CreateDepartment(string name)
         {
             Department d = new Department(name);
             departments.Add(d);
         }
 
+        /// <summary>
+        /// Удаление департамента
+        /// </summary>
+        /// <param name="name">Название департамента</param>
         public void DeleteDepartment(string name)
         {
-            foreach (var item in departments)
+            for (int i = 0; i <= departments.Count-1; i++)
             {
-                if (item.Name.ToLower() == name.ToLower()) departments.Remove(item);
+                if (departments[i].Name.ToLower() == name.ToLower())
+                {
+                    for (int j = 0; j <= departments[i].workers.Count-1; i++)
+                    {
+                        departments[i].workers[j].flagD = ;
+                    }
+                    departments.Remove(item);
+                }
+  
             }
         }
 
