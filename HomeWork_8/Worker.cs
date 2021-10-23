@@ -22,7 +22,9 @@ namespace HomeWork_8
 
         public string NameOfDepartment { get; set; }
 
-        public bool flagDepartment;
+        public bool flagD;
+
+
 
         public Worker(string name, string sername, int age, int salary, int projects, int id)
         {
@@ -33,8 +35,19 @@ namespace HomeWork_8
             this.Projects = projects;
             this.Id = id;
             this.NameOfDepartment = "";
-            this.flagDepartment = false;
-            
+            this.flagD = false;
+        }
+
+        public Worker(string name, string sername, int age, int salary, int projects, int id, Department d)
+        {
+            this.Name = name;
+            this.SerName = sername;
+            this.Age = age;
+            this.Salary = salary;
+            this.Projects = projects;
+            this.Id = id;
+            this.NameOfDepartment = d.Name;
+            this.flagD = true;
         }
     }
 }
