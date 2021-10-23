@@ -34,6 +34,7 @@ namespace HomeWork_8
             this.Id = id;
             this.NameOfDepartment = "";
             this.flagDepartment = false;
+            
         }
     }
 }

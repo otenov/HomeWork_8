@@ -23,6 +23,7 @@ namespace HomeWork_8
             //Dictionary<int, string> dic1 = new Dictionary<int, string>();
             //dic1.Add(w1.Id, d1.Name);
             Console.ReadLine();
+
         }
     }
 }

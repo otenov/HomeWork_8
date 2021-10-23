@@ -42,7 +42,7 @@ namespace HomeWork_8
                 if (answer1.ToLower() == "да")
                 {
                     Console.WriteLine("Если вы хотите добавить существующего сотрудника, то нажмите 1" +
-                        "Если вы хотите создать нового сотрудника, то нажмите 2 и добавить" +
+                        "Если вы хотите создать нового сотрудника и добавить, то нажмите 2" +
                         "Если вы передумали, то нажмите 0");
                     int answer2 = Convert.ToInt32(Console.ReadLine());
                     if (answer2 == 1)
@@ -64,7 +64,7 @@ namespace HomeWork_8
                             Id = Convert.ToInt32(Console.ReadLine()),
                             NameOfDepartment = Name,
                             flagDepartment = true,
-                        };
+                        }; 
                         Add(worker);
                     }
                     else if (answer2 == 0) break;

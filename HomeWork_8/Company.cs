@@ -8,6 +8,12 @@ namespace HomeWork_8
 {
     struct Company
     {
-        List<Worker> people;
+        public List<Worker> people;
+
+        public void CreateWorker()
+        {
+            Worker w = new Worker();
+            people.Add(w);
+        }
     }
 }
