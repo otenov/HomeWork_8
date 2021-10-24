@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,20 +8,40 @@ namespace HomeWork_8
 {
     struct Company
     {
+        public string Name { get; set; }
         public List<Department> departments;
 
         public List<Worker> peoples;
+
+        public Company(string name)
+        {
+            this.Name = name;
+            this.peoples = new List<Worker>();
+            this.departments = new List<Department>();
+        }
 
         /// <summary>
         /// Создание сотрудника без определения в департамент
         /// </summary>
         public void CreateWorker()
         {
+            Console.Write("Введите имя сотрудника\n" +
+                ">>> ");
             string name = Console.ReadLine();
+            Console.Write("Введите фамилию сотрудника\n" +
+                          ">>> ");
             string sername = Console.ReadLine();
+            Console.Write("Введите возраст сотрудника\n" +
+                          ">>> ");
             int age = int.Parse(Console.ReadLine());
+            Console.Write("Введите зарплату сотрудника\n" +
+                          ">>> ");
             int salary = int.Parse(Console.ReadLine());
+            Console.Write("Введите количество проектов сотрудника\n" +
+                          ">>> ");
             int projects = int.Parse(Console.ReadLine());
+            Console.Write("Введите оригинальный номер сотрудника\n" +
+                          ">>> ");
             int id = int.Parse(Console.ReadLine());
             Worker w = new Worker(name, sername, age, salary, projects, id);
             peoples.Add(w);
@@ -34,11 +54,23 @@ namespace HomeWork_8
         /// <returns>Сотрудник, состоящий в департаменте</returns>
         public Worker CreateWorker(Department d)
         {
+            Console.Write("Введите имя сотрудника\n" +
+                          ">>> ");
             string name = Console.ReadLine();
+            Console.Write("Введите фамилию сотрудника\n" +
+                          ">>> ");
             string sername = Console.ReadLine();
+            Console.Write("Введите возраст сотрудника\n" +
+                          ">>> ");
             int age = int.Parse(Console.ReadLine());
+            Console.Write("Введите зарплату сотрудника\n" +
+                          ">>> ");
             int salary = int.Parse(Console.ReadLine());
+            Console.Write("Введите количество проектов сотрудника\n" +
+                          ">>> ");
             int projects = int.Parse(Console.ReadLine());
+            Console.Write("Введите оригинальный номер сотрудника\n" +
+                          ">>> ");
             int id = int.Parse(Console.ReadLine());
             Worker w = new Worker(name, sername, age, salary, projects, id, d);
             peoples.Add(w);
@@ -81,20 +113,27 @@ namespace HomeWork_8
         /// <param name="name">Название департамента</param>
         public void DeleteDepartment(string name)
         {
-            for (int i = 0; i <= departments.Count-1; i++)
+            foreach (var item in departments)
             {
-                if (departments[i].Name.ToLower() == name.ToLower())
+                if (item.Name.ToLower() == name.ToLower())
                 {
-                    for (int j = 0; j <= departments[i].workers.Count-1; i++)
+                    for (int i = 0; i < item.workers.Count-1; i++)
                     {
-                        departments[i].workers[j].flagD = ;
+                        Worker w = item.workers[i];
+                        w.flagD = false;
+                        w.NameOfDepartment = null;
                     }
                     departments.Remove(item);
+                    break;
                 }
-  
             }
         }
 
+        /// <summary>
+        /// Поиск департамента по названию
+        /// </summary>
+        /// <param name="name">Название департамента</param>
+        /// <returns>Департамент с указанным именем</returns>
         public Department FindDepartment(string name)
         {
             Department d = new Department();
@@ -105,6 +144,11 @@ namespace HomeWork_8
             return d;
         }
 
+        /// <summary>
+        /// Поиск работника из списка всех работников компании по id
+        /// </summary>
+        /// <param name="id">Уникальный номер сотрудника</param>
+        /// <returns>Сотрудник с указанным номером</returns>
         public Worker FindWorker(int id)
         {
             Worker w = new Worker();
@@ -115,6 +159,12 @@ namespace HomeWork_8
             return w;
         }
 
+        /// <summary>
+        /// Поиск сотрудника в департаменте
+        /// </summary>
+        /// <param name="id">Уникальный номер сотрудника</param>
+        /// <param name="d">Департамент</param>
+        /// <returns>Сотрудник</returns>
         public Worker FindWorker(int id, Department d)
         {
             Worker w = new Worker();
@@ -124,6 +174,7 @@ namespace HomeWork_8
             }
             return w;
         }
+
 
 
 

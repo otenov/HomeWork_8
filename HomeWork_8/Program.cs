@@ -10,7 +10,7 @@ namespace HomeWork_8
     {
         static void Main(string[] args)
         {
-            Company c = new Company();
+            Company c = new Company("Рога и копыта");
 
             for(; ; )
             {
@@ -101,9 +101,26 @@ namespace HomeWork_8
                 }
                 else if (answer == "2")
                 {
-
+                    Console.Write("Если вы хотите создать сотрудника, то нажмите 1\n" +
+                    "Если вы хотите удалить сотрудника, то нажмите 2\n" +
+                    ">>> ");
+                    answer = Console.ReadLine();
+                    if (answer == "1")
+                    {
+                        c.CreateWorker();
+                    }
+                    else if(answer == "2")
+                    {
+                        Console.Write("Введите id сотрудника, которого нужно удалить\n" +
+                                ">>> ");
+                        int id = int.Parse(Console.ReadLine());
+                        c.DeleteWorker(id);
+                    }
                 }
-                else 
+                else if (answer == "0")
+                {
+                    break;
+                }
             }
 
             Console.ReadLine();
