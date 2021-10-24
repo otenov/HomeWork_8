@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+//Почему не работает присваивание к списку списка
+//Почему когда меняешь поля работника, они автоматически не меняются в списке
+
 namespace HomeWork_8
 {
     class Program
@@ -72,7 +75,12 @@ namespace HomeWork_8
                                     ">>> ");
                                 int id = int.Parse(Console.ReadLine());
                                 Worker w = c.FindWorker(id);
-                                if (!w.flagD) d5.Add(w);
+                                if (!w.flagD) 
+                                {
+                                    c.peoples.Remove(w);
+                                    d5.Add(w);
+                                    c.peoples.Add(w);
+                                }
                                 else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту," +
                                     $"а именно к департаменту {w.NameOfDepartment}");
                             }
@@ -87,6 +95,7 @@ namespace HomeWork_8
                         }
                         else if (answer == "3")
                         {
+                            c.departments.Remove(d5);
                             Console.Write("Введите имя для нового департамента\n" +
                                           ">>> ");
                             name = Console.ReadLine();
@@ -94,6 +103,7 @@ namespace HomeWork_8
                                           ">>> ");
                             DateTime date = Convert.ToDateTime(Console.ReadLine());
                             d5.Edit(name, date);
+                            c.departments.Add(d5);
                         }
                         else if (answer == "4") c.ReadWorkers(d5);
                         else
