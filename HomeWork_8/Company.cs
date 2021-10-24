@@ -175,6 +175,47 @@ namespace HomeWork_8
             return w;
         }
 
+        public void ReadDepartments()
+        {
+            foreach(var item in departments)
+            {
+                Console.WriteLine($"Название департамента - {item.Name}\n" +
+                    $"Дата создания - {item.Date}\n" +
+                    $"");
+            }
+        }
+
+        public void ReadWorkers()
+        {
+            foreach (var item in peoples)
+            {
+                Console.WriteLine($"Имя сотрудника - {item.Name}\n" +
+                    $"Фамилия - {item.SerName}\n" +
+                    $"Возраст - {item.Age}\n" +
+                    $"Зарплата - {item.Salary}\n" +
+                    $"Количество проектов - {item.Projects}\n" +
+                    $"Id - {item.Id}\n" +
+                    $"Департамент - {item.NameOfDepartment}\n" +
+                    $"");
+            }
+        }
+
+        public void ReadWorkers(Department d)
+        {
+            foreach (var item in d.workers)
+            {
+                Console.WriteLine($"Имя сотрудника - {item.Name}\n" +
+                    $"Фамилия - {item.SerName}\n" +
+                    $"Возраст - {item.Age}\n" +
+                    $"Зарплата - {item.Salary}\n" +
+                    $"Количество проектов - {item.Projects}\n" +
+                    $"Id - {item.Id}\n" +
+                    $"Департамент - {item.NameOfDepartment}\n" +
+                    $"");
+            }
+        }
+
+
 
 
 

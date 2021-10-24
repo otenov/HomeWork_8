@@ -24,6 +24,7 @@ namespace HomeWork_8
                     Console.Write("Если вы хотите создать новый департамент, то нажмите 1\n" +
                     "Если вы хотите удалить департамент, то нажмите 2\n" +
                     "Если вы хотите работать, с конкретным департаментом, то нажмите 3\n" +
+                    "Если вы хотите получить список существующих департаментов,то нажмите 4\n" +
                     ">>> ");
                     answer = Console.ReadLine();
                     Console.Clear();
@@ -52,6 +53,7 @@ namespace HomeWork_8
                         Console.Write("Если вы хотите добавить сотрудника в департамент, то нажмите 1\n" +
                         "Если вы хотите удалить сотрудника из департамента, то нажмите 2\n" +
                         "Если вы хотите редактировать департамент, то нажмите 3\n" +
+                        "Если вы хотите прочитать список сотрудников в департаменте, то нажмите 4" +
                         ">>> ");
                         answer = Console.ReadLine();
                         if (answer == "1")
@@ -60,7 +62,7 @@ namespace HomeWork_8
                                 "Если вы хотите добавить существующего сотрудника, то нажмите 2\n" +
                                 ">>> ");
                             answer = Console.ReadLine();
-                            if(answer == "1")
+                            if (answer == "1")
                             {
                                 d5.Add(c.CreateWorker(d5));
                             }
@@ -72,7 +74,7 @@ namespace HomeWork_8
                                 Worker w = c.FindWorker(id);
                                 if (!w.flagD) d5.Add(w);
                                 else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту," +
-                                    $"а именно к департаменту {w.NameOfDepartment}"); 
+                                    $"а именно к департаменту {w.NameOfDepartment}");
                             }
                         }
                         else if (answer == "2")
@@ -88,34 +90,38 @@ namespace HomeWork_8
                             Console.Write("Введите имя для нового департамента\n" +
                                           ">>> ");
                             name = Console.ReadLine();
-                            Console.Write("Введите имя для нового департамента\n" +
+                            Console.Write("Введите дату создания департамента\n" +
                                           ">>> ");
                             DateTime date = Convert.ToDateTime(Console.ReadLine());
                             d5.Edit(name, date);
                         }
+                        else if (answer == "4") c.ReadWorkers(d5);
                         else
                         {
                             Console.WriteLine("Вы ввели что-то не то");
                         }
                     }
+                    else if (answer == "4") c.ReadDepartments();
                 }
                 else if (answer == "2")
                 {
                     Console.Write("Если вы хотите создать сотрудника, то нажмите 1\n" +
                     "Если вы хотите удалить сотрудника, то нажмите 2\n" +
+                    "Если вы хотите прочитать список сотрудников в компании, то нажмите 3\n" +
                     ">>> ");
                     answer = Console.ReadLine();
                     if (answer == "1")
                     {
                         c.CreateWorker();
                     }
-                    else if(answer == "2")
+                    else if (answer == "2")
                     {
                         Console.Write("Введите id сотрудника, которого нужно удалить\n" +
                                 ">>> ");
                         int id = int.Parse(Console.ReadLine());
                         c.DeleteWorker(id);
                     }
+                    else if (answer == "3") c.ReadWorkers();
                 }
                 else if (answer == "0")
                 {

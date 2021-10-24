@@ -23,8 +23,9 @@ namespace HomeWork_8
 
         public void Add(Worker worker)
         {
-            workers.Add(worker);
             worker.flagD = true;
+            worker.NameOfDepartment = this.Name;
+            workers.Add(worker);
         }
 
         public void DeleteFromDepartment(Worker worker)
