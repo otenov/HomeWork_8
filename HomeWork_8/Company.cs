@@ -84,15 +84,15 @@ namespace HomeWork_8
         /// <param name="id">Уникальный номер сотрудника</param>
         public void DeleteWorker(int id)
         {
-            foreach (var item in peoples)
+            for (int i = 0; i <= peoples.Count-1; i++)
             {
-                if (item.Id == id) peoples.Remove(item);
+                if (peoples[i].Id == id) peoples.Remove(peoples[i]);
             }
             foreach (var item in departments)
             {
-                foreach(Worker w in item.workers)
+                for (int i = 0; i <= item.workers.Count-1; i++)
                 {
-                    if (w.Id == id) item.workers.Remove(w);
+                    if (item.workers[i].Id == id) item.workers.Remove(item.workers[i]);
                 }
             }
         }
@@ -117,11 +117,13 @@ namespace HomeWork_8
             {
                 if (item.Name.ToLower() == name.ToLower())
                 {
-                    for (int i = 0; i < item.workers.Count-1; i++)
+                    for (int i = 0; i <= item.workers.Count-1; i++)
                     {
                         Worker w = item.workers[i];
+                        peoples.Remove(w);
                         w.flagD = false;
                         w.NameOfDepartment = null;
+                        peoples.Add(w);
                     }
                     departments.Remove(item);
                     break;

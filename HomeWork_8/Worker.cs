@@ -49,5 +49,14 @@ namespace HomeWork_8
             this.NameOfDepartment = d.Name;
             this.flagD = true;
         }
+
+        public void Edit(string name, string sername, int age, int salary, int projects)
+        {
+            this.Name = name;
+            this.SerName = sername;
+            this.Age = age;
+            this.Salary = salary;
+            this.Projects = projects;
+        }
     }
 }

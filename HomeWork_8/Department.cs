@@ -21,17 +21,20 @@ namespace HomeWork_8
             this.workers = new List<Worker>();
         }
 
-        public void Add(Worker worker)
+        public Worker Add(Worker worker)
         {
             worker.flagD = true;
             worker.NameOfDepartment = this.Name;
             workers.Add(worker);
+            return worker;
         }
 
-        public void DeleteFromDepartment(Worker worker)
+        public Worker DeleteFromDepartment(Worker worker)
         {
             workers.Remove(worker);
             worker.flagD = false;
+            worker.NameOfDepartment = null;
+            return worker;
         }
 
         public void Edit(string name, DateTime date)

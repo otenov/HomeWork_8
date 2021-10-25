@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 //Почему не работает присваивание к списку списка
 //Почему когда меняешь поля работника, они автоматически не меняются в списке
@@ -11,6 +12,25 @@ namespace HomeWork_8
 {
     class Program
     {
+        static void xmlSerialize(string Path, Company c)
+        {
+            XElement myCompany = new XElement("COMPANY");
+            XElement myPeoples = new XElement("PEOPLES");
+            XElement myDepartments = new XElement("DEPARTMENTS");
+            XElement myWorker = new XElement("WORKER");
+
+            XAttribute companyName = new XAttribute("name", c.Name);
+            XAttribute peoplesName = new XAttribute("name", "Список сотрудников компании");
+            XAttribute departmentsName = new XAttribute("name", "Список департаментов компании");
+            myCompany.Add(companyName);
+
+            myPeoples.Add(peoplesName);
+            myDepartments.Add(departmentsName);
+
+            myCompany.Add(myPeoples);
+            myCompany.Add(myDepartments);
+            myCompany.Save(Path);
+        }
         static void Main(string[] args)
         {
             Company c = new Company("Рога и копыта");
@@ -19,6 +39,7 @@ namespace HomeWork_8
             {
                 Console.Write("Если вы хотите работать с департаментами, то нажмите 1\n" +
                     "Если вы хотите работать с сотрудниками, то нажмите 2\n" +
+                    "Если вы хотите выйти, то нажмите 0\n" +
                     ">>> ");
                 string answer = Console.ReadLine();
                 Console.Clear();
@@ -27,7 +48,7 @@ namespace HomeWork_8
                     Console.Write("Если вы хотите создать новый департамент, то нажмите 1\n" +
                     "Если вы хотите удалить департамент, то нажмите 2\n" +
                     "Если вы хотите работать, с конкретным департаментом, то нажмите 3\n" +
-                    "Если вы хотите получить список существующих департаментов,то нажмите 4\n" +
+                    "Если вы хотите получить список существующих департаментов, то нажмите 4\n" +
                     ">>> ");
                     answer = Console.ReadLine();
                     Console.Clear();
@@ -56,7 +77,7 @@ namespace HomeWork_8
                         Console.Write("Если вы хотите добавить сотрудника в департамент, то нажмите 1\n" +
                         "Если вы хотите удалить сотрудника из департамента, то нажмите 2\n" +
                         "Если вы хотите редактировать департамент, то нажмите 3\n" +
-                        "Если вы хотите прочитать список сотрудников в департаменте, то нажмите 4" +
+                        "Если вы хотите прочитать список сотрудников в департаменте, то нажмите 4\n" +
                         ">>> ");
                         answer = Console.ReadLine();
                         if (answer == "1")
@@ -78,10 +99,10 @@ namespace HomeWork_8
                                 if (!w.flagD) 
                                 {
                                     c.peoples.Remove(w);
-                                    d5.Add(w);
+                                    w = d5.Add(w);
                                     c.peoples.Add(w);
                                 }
-                                else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту," +
+                                else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту, " +
                                     $"а именно к департаменту {w.NameOfDepartment}");
                             }
                         }
@@ -91,7 +112,9 @@ namespace HomeWork_8
                                 ">>> ");
                             int id = int.Parse(Console.ReadLine());
                             Worker w = c.FindWorker(id, d5);
-                            d5.DeleteFromDepartment(w);
+                            c.peoples.Remove(w);
+                            w = d5.DeleteFromDepartment(w);
+                            c.peoples.Add(w);
                         }
                         else if (answer == "3")
                         {
@@ -117,7 +140,8 @@ namespace HomeWork_8
                 {
                     Console.Write("Если вы хотите создать сотрудника, то нажмите 1\n" +
                     "Если вы хотите удалить сотрудника, то нажмите 2\n" +
-                    "Если вы хотите прочитать список сотрудников в компании, то нажмите 3\n" +
+                    "Если вы хотите редактировать сотрудника, то нажмите 3\n" +
+                    "Если вы хотите прочитать список сотрудников в компании, то нажмите 4\n" +
                     ">>> ");
                     answer = Console.ReadLine();
                     if (answer == "1")
@@ -131,7 +155,45 @@ namespace HomeWork_8
                         int id = int.Parse(Console.ReadLine());
                         c.DeleteWorker(id);
                     }
-                    else if (answer == "3") c.ReadWorkers();
+                    else if (answer == "3")
+                    {
+                        Console.Write("Введите id сотрудника, которого нужно редактировать\n" +
+                                ">>> ");
+                        int id = int.Parse(Console.ReadLine());
+                        Worker w = c.FindWorker(id);
+                        if (w.flagD)
+                        {
+                            Department d = c.FindDepartment(w.NameOfDepartment);
+                            d.workers.Remove(w);
+                        }
+                        c.peoples.Remove(w);
+
+                        Console.Write("Введите имя сотрудника\n" +
+                          ">>> ");
+                        string name = Console.ReadLine();
+                        Console.Write("Введите фамилию сотрудника\n" +
+                                      ">>> ");
+                        string sername = Console.ReadLine();
+                        Console.Write("Введите возраст сотрудника\n" +
+                                      ">>> ");
+                        int age = int.Parse(Console.ReadLine());
+                        Console.Write("Введите зарплату сотрудника\n" +
+                                      ">>> ");
+                        int salary = int.Parse(Console.ReadLine());
+                        Console.Write("Введите количество проектов сотрудника\n" +
+                                      ">>> ");
+                        int projects = int.Parse(Console.ReadLine());
+
+                        w.Edit(name, sername, age, salary, projects);
+                        c.peoples.Add(w);
+                        if (w.flagD)
+                        {
+                            Department d = c.FindDepartment(w.NameOfDepartment);
+                            d.workers.Add(w);
+                        }
+                    }
+                    else if (answer == "4") c.ReadWorkers();
+
                 }
                 else if (answer == "0")
                 {
@@ -139,8 +201,8 @@ namespace HomeWork_8
                 }
             }
 
-            Console.ReadLine();
-
+            string nameoffile = "trening.xml";
+            xmlSerialize(nameoffile, c);
         }
     }
 }
