@@ -30,7 +30,7 @@ namespace HomeWork_8
             string name = Console.ReadLine();
             Console.Write("Введите фамилию сотрудника\n" +
                           ">>> ");
-            string sername = Console.ReadLine();
+            string surname = Console.ReadLine();
             Console.Write("Введите возраст сотрудника\n" +
                           ">>> ");
             int age = int.Parse(Console.ReadLine());
@@ -43,7 +43,7 @@ namespace HomeWork_8
             Console.Write("Введите оригинальный номер сотрудника\n" +
                           ">>> ");
             int id = int.Parse(Console.ReadLine());
-            Worker w = new Worker(name, sername, age, salary, projects, id);
+            Worker w = new Worker(name, surname, age, salary, projects, id);
             peoples.Add(w);
         }
 
@@ -59,12 +59,13 @@ namespace HomeWork_8
             string name = Console.ReadLine();
             Console.Write("Введите фамилию сотрудника\n" +
                           ">>> ");
-            string sername = Console.ReadLine();
+            string surname = Console.ReadLine();
             Console.Write("Введите возраст сотрудника\n" +
                           ">>> ");
             int age = int.Parse(Console.ReadLine());
             Console.Write("Введите зарплату сотрудника\n" +
                           ">>> ");
+            
             int salary = int.Parse(Console.ReadLine());
             Console.Write("Введите количество проектов сотрудника\n" +
                           ">>> ");
@@ -72,7 +73,7 @@ namespace HomeWork_8
             Console.Write("Введите оригинальный номер сотрудника\n" +
                           ">>> ");
             int id = int.Parse(Console.ReadLine());
-            Worker w = new Worker(name, sername, age, salary, projects, id, d);
+            Worker w = new Worker(name, surname, age, salary, projects, id, d);
             peoples.Add(w);
             return w;
         }
@@ -192,7 +193,7 @@ namespace HomeWork_8
             foreach (var item in peoples)
             {
                 Console.WriteLine($"Имя сотрудника - {item.Name}\n" +
-                    $"Фамилия - {item.SerName}\n" +
+                    $"Фамилия - {item.Surname}\n" +
                     $"Возраст - {item.Age}\n" +
                     $"Зарплата - {item.Salary}\n" +
                     $"Количество проектов - {item.Projects}\n" +
@@ -207,7 +208,7 @@ namespace HomeWork_8
             foreach (var item in d.workers)
             {
                 Console.WriteLine($"Имя сотрудника - {item.Name}\n" +
-                    $"Фамилия - {item.SerName}\n" +
+                    $"Фамилия - {item.Surname}\n" +
                     $"Возраст - {item.Age}\n" +
                     $"Зарплата - {item.Salary}\n" +
                     $"Количество проектов - {item.Projects}\n" +

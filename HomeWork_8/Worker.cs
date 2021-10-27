@@ -10,7 +10,7 @@ namespace HomeWork_8
     {
         public string Name { get; set; }
 
-        public string SerName { get; set; }
+        public string Surname { get; set; }
 
         public int Age { get; set; }
 
@@ -26,10 +26,10 @@ namespace HomeWork_8
 
 
 
-        public Worker(string name, string sername, int age, int salary, int projects, int id)
+        public Worker(string name, string surname, int age, int salary, int projects, int id)
         {
             this.Name = name;
-            this.SerName = sername;
+            this.Surname = surname;
             this.Age = age;
             this.Salary = salary;
             this.Projects = projects;
@@ -38,10 +38,10 @@ namespace HomeWork_8
             this.flagD = false;
         }
 
-        public Worker(string name, string sername, int age, int salary, int projects, int id, Department d)
+        public Worker(string name, string surname, int age, int salary, int projects, int id, Department d)
         {
             this.Name = name;
-            this.SerName = sername;
+            this.Surname = surname;
             this.Age = age;
             this.Salary = salary;
             this.Projects = projects;
@@ -50,13 +50,18 @@ namespace HomeWork_8
             this.flagD = true;
         }
 
-        public void Edit(string name, string sername, int age, int salary, int projects)
+        public void Edit(string name, string surname, int age, int salary, int projects)
         {
             this.Name = name;
-            this.SerName = sername;
+            this.Surname = surname;
             this.Age = age;
             this.Salary = salary;
             this.Projects = projects;
+        }
+
+        public void EditDepartment(string name)
+        {
+            this.NameOfDepartment = name;
         }
     }
 }
