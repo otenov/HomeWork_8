@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
 
-//Почему не работает присваивание к списку списка
-//Почему когда меняешь поля работника, они автоматически не меняются в списке
+//Почему не работает присваивание к списку
+//Почему когда меняешь поля работника, они автоматически не меняются в списке - 1) вопрос в чате
 
 namespace HomeWork_8
 {
@@ -129,7 +129,15 @@ namespace HomeWork_8
         }
         static void Main(string[] args)
         {
+
+ 
             Company c = new Company("Рога и копыта");
+
+            //Почему не работает присваивание к списку
+            //for (int i = 0; i <= c.departments.Count - 1; i++)
+            //{
+            //    c.departments[i].Name = "sdfsd";
+            //}
             string file = "Company";
             for(; ; )
             {
