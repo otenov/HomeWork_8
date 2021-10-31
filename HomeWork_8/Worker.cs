@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork_8
 {
-    struct Worker
+    public struct Worker
     {
         public string Name { get; set; }
 
@@ -62,6 +62,7 @@ namespace HomeWork_8
         public void EditDepartment(string name)
         {
             this.NameOfDepartment = name;
+            flagD = true;
         }
     }
 }

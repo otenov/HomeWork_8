@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork_8
 {
-    struct Department
+    public struct Department
     {
         public string Name { get; set; }
 

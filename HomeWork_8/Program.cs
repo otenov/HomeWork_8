@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
+using System.Xml.Serialization;
 
-//Почему не работает присваивание к списку
-//Почему когда меняешь поля работника, они автоматически не меняются в списке - 1) вопрос в чате
 
 namespace HomeWork_8
 {
     class Program
     {
+        //Сериализация и десериализация ручная
         static void xmlSerialize(string Path, Company c)
         {
             XElement myCompany = new XElement("COMPANY");
@@ -68,6 +68,7 @@ namespace HomeWork_8
             //Сохраняем
             myCompany.Save(Path+".xml");
         }
+
         static void xmlDeserialize(string Path)
         {
             string xml = File.ReadAllText(Path+".xml");
@@ -127,22 +128,38 @@ namespace HomeWork_8
                 } 
             }
         }
+
+        //Сериализация и десериализация с помощью XmlSerializer
+        static void xmlSerialize2(string Path, Company c)
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(Company));
+
+            using (FileStream f = new FileStream(Path, FileMode.OpenOrCreate))
+            {
+                xml.Serialize(f, c);
+            }
+        }
+
+        static Company xmlDeserialize2(string Path)
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(Company));
+
+            using (FileStream f = new FileStream(Path, FileMode.Open))
+            {
+                Company company = (Company)xml.Deserialize(f);
+                return company;
+            }
+        }
+
         static void Main(string[] args)
         {
-
- 
             Company c = new Company("Рога и копыта");
 
-            //Почему не работает присваивание к списку
-            //for (int i = 0; i <= c.departments.Count - 1; i++)
-            //{
-            //    c.departments[i].Name = "sdfsd";
-            //}
             string file = "Company";
             for(; ; )
             {
                 Console.Write("Если вы хотите, начать работу с компанией, то нажмите 1\n" +
-                        "Если вы хотите загрузить данные из файла, то нажмите 2\n" +
+                        "Если вы хотите загрузить данные из собственно собранного файла, то нажмите 2\n" +
                         "Если вы хотите выйти, то нажмите 0\n" +
                         ">>> ");
                 string answer = Console.ReadLine();
@@ -150,10 +167,9 @@ namespace HomeWork_8
                 {
                     for (; ; )
                     {
-
-
                         Console.Write("Если вы хотите работать с департаментами, то нажмите 1\n" +
                             "Если вы хотите работать с сотрудниками, то нажмите 2\n" +
+                            "Если вы хотите сохранить данные и выйти, то нажмите 3\n" +
                             "Если вы хотите выйти, то нажмите 0\n" +
                             ">>> ");
                         answer = Console.ReadLine();
@@ -213,9 +229,10 @@ namespace HomeWork_8
                                         Worker w = c.FindWorker(id);
                                         if (!w.flagD)
                                         {
-                                            c.peoples.Remove(w);
+                                            int index = c.peoples.IndexOf(w);
+                                            c.peoples.RemoveAt(index);
                                             w = d5.Add(w);
-                                            c.peoples.Add(w);
+                                            c.peoples.Insert(index, w);
                                         }
                                         else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту, " +
                                             $"а именно к департаменту {w.NameOfDepartment}");
@@ -227,13 +244,16 @@ namespace HomeWork_8
                                         ">>> ");
                                     int id = int.Parse(Console.ReadLine());
                                     Worker w = c.FindWorker(id, d5);
-                                    c.peoples.Remove(w);
+
+                                    int index = c.peoples.IndexOf(w);
+                                    c.peoples.RemoveAt(index);
                                     w = d5.DeleteFromDepartment(w);
-                                    c.peoples.Add(w);
+                                    c.peoples.Insert(index, w);
                                 }
                                 else if (answer == "3")
                                 {
-                                    c.departments.Remove(d5);
+                                    int index = c.departments.IndexOf(d5);
+                                    c.departments.RemoveAt(index);
                                     Console.Write("Введите имя для нового департамента\n" +
                                                   ">>> ");
                                     name = Console.ReadLine();
@@ -241,17 +261,17 @@ namespace HomeWork_8
                                                   ">>> ");
                                     DateTime date = Convert.ToDateTime(Console.ReadLine());
                                     d5.Edit(name, date);
-                                    c.departments.Add(d5);
-                                    int g = 0;
+                                    c.departments.Insert(index, d5);
+
                                     for (int i = 0; i <= d5.workers.Count - 1; i++)
                                     {
-                                        if (i % 2 == 1) i--;
                                         Worker worker = d5.workers[i];
-                                        d5.workers.Remove(worker);
-                                        c.peoples.Remove(worker);
-                                        c.peoples.Add(d5.Add(worker));
-                                        g++;
-                                        if (g == d5.workers.Count) break;
+                                        index = c.peoples.IndexOf(worker);
+                                        d5.workers.RemoveAt(i);
+                                        worker.EditDepartment(d5.Name);
+                                        d5.workers.Insert(i, worker);
+                                        c.peoples.RemoveAt(index);
+                                        c.peoples.Insert(index, worker);
                                     }
                                 }
                                 else if (answer == "4") c.ReadWorkers(d5);
@@ -287,12 +307,14 @@ namespace HomeWork_8
                                         ">>> ");
                                 int id = int.Parse(Console.ReadLine());
                                 Worker w = c.FindWorker(id);
+                                int indexD = 0, indexP = c.peoples.IndexOf(w);
                                 if (w.flagD)
                                 {
                                     Department d = c.FindDepartment(w.NameOfDepartment);
-                                    d.workers.Remove(w);
+                                    indexD = d.workers.IndexOf(w);
+                                    d.workers.RemoveAt(indexD);
                                 }
-                                c.peoples.Remove(w);
+                                c.peoples.RemoveAt(indexP);
 
                                 Console.Write("Введите имя сотрудника\n" +
                                   ">>> ");
@@ -311,15 +333,36 @@ namespace HomeWork_8
                                 int projects = int.Parse(Console.ReadLine());
 
                                 w.Edit(name, surname, age, salary, projects);
-                                c.peoples.Add(w);
+                                c.peoples.Insert(indexP, w);
                                 if (w.flagD)
                                 {
                                     Department d = c.FindDepartment(w.NameOfDepartment);
-                                    d.workers.Add(w);
+                                    d.workers.Insert(indexD, w);
                                 }
                             }
                             else if (answer == "4") c.ReadWorkers();
 
+                        }
+                        else if (answer == "3")
+                        {
+                            Console.Write("Введите имя файла\n" +
+                                ">>> ");
+                            string name = Console.ReadLine();
+                            xmlSerialize2( name + ".xml", c);
+                            Console.WriteLine("\n\nДесериализация");
+                            Company company = xmlDeserialize2(name+".xml");
+                            foreach (Department item in company.departments)
+                            {
+                                    Console.WriteLine($"Список департаментов\n" +
+                                        $"{item.Name}\n" +
+                                        $"{item.Date}\n");
+                            }
+                            foreach (Worker item in company.peoples)
+                            {
+                                    Console.WriteLine($"Список сотрудников\n" +
+                                        $"{item.Name}\n" +
+                                        $"{item.Id}");
+                            }
                         }
                         else if (answer == "0")
                         {

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HomeWork_8
 {
-    struct Company
+    public struct Company
     {
         public string Name { get; set; }
+
         public List<Department> departments;
 
         public List<Worker> peoples;
@@ -121,10 +122,11 @@ namespace HomeWork_8
                     for (int i = 0; i <= item.workers.Count-1; i++)
                     {
                         Worker w = item.workers[i];
-                        peoples.Remove(w);
+                        int number = peoples.IndexOf(w);
+                        peoples.RemoveAt(number);
                         w.flagD = false;
                         w.NameOfDepartment = null;
-                        peoples.Add(w);
+                        peoples.Insert(number, w);
                     }
                     departments.Remove(item);
                     break;
@@ -178,6 +180,9 @@ namespace HomeWork_8
             return w;
         }
 
+        /// <summary>
+        /// Вывод информации о депаратментах
+        /// </summary>
         public void ReadDepartments()
         {
             foreach(var item in departments)
@@ -188,6 +193,9 @@ namespace HomeWork_8
             }
         }
 
+        /// <summary>
+        /// Вывод информации о сотрудниках в компании
+        /// </summary>
         public void ReadWorkers()
         {
             foreach (var item in peoples)
@@ -203,6 +211,10 @@ namespace HomeWork_8
             }
         }
 
+        /// <summary>
+        /// Вывод информации о сотрдуниках в департаменте
+        /// </summary>
+        /// <param name="d">Департамент с сотрудниками</param>
         public void ReadWorkers(Department d)
         {
             foreach (var item in d.workers)
