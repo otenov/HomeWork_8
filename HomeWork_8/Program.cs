@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 
 namespace HomeWork_8
@@ -160,6 +161,7 @@ namespace HomeWork_8
             {
                 Console.Write("Если вы хотите, начать работу с компанией, то нажмите 1\n" +
                         "Если вы хотите загрузить данные из собственно собранного файла, то нажмите 2\n" +
+                        "Если вы хотите сохранить всю информацию в json файл, то нажмите 3\n" +
                         "Если вы хотите выйти, то нажмите 0\n" +
                         ">>> ");
                 string answer = Console.ReadLine();
@@ -376,6 +378,21 @@ namespace HomeWork_8
                 {
                     xmlDeserialize(file);
                 }
+                else if (answer == "3")
+                {
+
+                    string json = JsonConvert.SerializeObject(c);
+                    using (StreamWriter f = new StreamWriter("Company.json"))
+                    {
+                        f.Write(json);
+                    }
+
+                    Company company = JsonConvert.DeserializeObject<Company>(json);
+                    foreach(var item in company.peoples)
+                    {
+                        Console.WriteLine("People: "+item.Name);
+                    }
+                }
                 else
                 {
                     break;
@@ -385,3 +402,5 @@ namespace HomeWork_8
         }
     }
 }
+
+
