@@ -24,26 +24,8 @@ namespace HomeWork_8
         /// <summary>
         /// Создание сотрудника без определения в департамент
         /// </summary>
-        public void CreateWorker()
+        public void CreateWorker(string name, string surname, int age, int salary, int projects, int id)
         {
-            Console.Write("Введите имя сотрудника\n" +
-                ">>> ");
-            string name = Console.ReadLine();
-            Console.Write("Введите фамилию сотрудника\n" +
-                          ">>> ");
-            string surname = Console.ReadLine();
-            Console.Write("Введите возраст сотрудника\n" +
-                          ">>> ");
-            int age = int.Parse(Console.ReadLine());
-            Console.Write("Введите зарплату сотрудника\n" +
-                          ">>> ");
-            int salary = int.Parse(Console.ReadLine());
-            Console.Write("Введите количество проектов сотрудника\n" +
-                          ">>> ");
-            int projects = int.Parse(Console.ReadLine());
-            Console.Write("Введите оригинальный номер сотрудника\n" +
-                          ">>> ");
-            int id = int.Parse(Console.ReadLine());
             Worker w = new Worker(name, surname, age, salary, projects, id);
             peoples.Add(w);
         }
@@ -53,27 +35,8 @@ namespace HomeWork_8
         /// </summary>
         /// <param name="d">Департамент, в который будет определен сотрудник</param>
         /// <returns>Сотрудник, состоящий в департаменте</returns>
-        public Worker CreateWorker(Department d)
+        public Worker CreateWorker(string name, string surname, int age, int salary, int projects, int id, Department d)
         {
-            Console.Write("Введите имя сотрудника\n" +
-                          ">>> ");
-            string name = Console.ReadLine();
-            Console.Write("Введите фамилию сотрудника\n" +
-                          ">>> ");
-            string surname = Console.ReadLine();
-            Console.Write("Введите возраст сотрудника\n" +
-                          ">>> ");
-            int age = int.Parse(Console.ReadLine());
-            Console.Write("Введите зарплату сотрудника\n" +
-                          ">>> ");
-            
-            int salary = int.Parse(Console.ReadLine());
-            Console.Write("Введите количество проектов сотрудника\n" +
-                          ">>> ");
-            int projects = int.Parse(Console.ReadLine());
-            Console.Write("Введите оригинальный номер сотрудника\n" +
-                          ">>> ");
-            int id = int.Parse(Console.ReadLine());
             Worker w = new Worker(name, surname, age, salary, projects, id, d);
             peoples.Add(w);
             return w;

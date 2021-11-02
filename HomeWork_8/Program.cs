@@ -155,13 +155,11 @@ namespace HomeWork_8
         static void Main(string[] args)
         {
             Company c = new Company("Рога и копыта");
-
             string file = "Company";
             for(; ; )
             {
                 Console.Write("Если вы хотите, начать работу с компанией, то нажмите 1\n" +
-                        "Если вы хотите загрузить данные из собственно собранного файла, то нажмите 2\n" +
-                        "Если вы хотите сохранить всю информацию в json файл, то нажмите 3\n" +
+                        "Если вы хотите сохранить всю информацию в json файл, то нажмите 2\n" +
                         "Если вы хотите выйти, то нажмите 0\n" +
                         ">>> ");
                 string answer = Console.ReadLine();
@@ -221,7 +219,27 @@ namespace HomeWork_8
                                     answer = Console.ReadLine();
                                     if (answer == "1")
                                     {
-                                        d5.Add(c.CreateWorker(d5));
+                                        Console.Write("Введите имя сотрудника\n" +
+                                                      ">>> ");
+                                        string wName = Console.ReadLine();
+                                        Console.Write("Введите фамилию сотрудника\n" +
+                                                      ">>> ");
+                                        string surname = Console.ReadLine();
+                                        Console.Write("Введите возраст сотрудника\n" +
+                                                      ">>> ");
+                                        int age = int.Parse(Console.ReadLine());
+                                        Console.Write("Введите зарплату сотрудника\n" +
+                                                      ">>> ");
+
+                                        int salary = int.Parse(Console.ReadLine());
+                                        Console.Write("Введите количество проектов сотрудника\n" +
+                                                      ">>> ");
+                                        int projects = int.Parse(Console.ReadLine());
+                                        Console.Write("Введите оригинальный номер сотрудника\n" +
+                                                      ">>> ");
+                                        int id = int.Parse(Console.ReadLine());
+                                        Worker worker = c.CreateWorker(wName, surname, age, salary, projects, id, d5);
+                                        d5.Add(worker);
                                     }
                                     else if (answer == "2")
                                     {
@@ -294,7 +312,25 @@ namespace HomeWork_8
                             answer = Console.ReadLine();
                             if (answer == "1")
                             {
-                                c.CreateWorker();
+                                Console.Write("Введите имя сотрудника\n" +
+                                              ">>> ");
+                                string name = Console.ReadLine();
+                                Console.Write("Введите фамилию сотрудника\n" +
+                                              ">>> ");
+                                string surname = Console.ReadLine();
+                                Console.Write("Введите возраст сотрудника\n" +
+                                              ">>> ");
+                                int age = int.Parse(Console.ReadLine());
+                                Console.Write("Введите зарплату сотрудника\n" +
+                                              ">>> ");
+                                int salary = int.Parse(Console.ReadLine());
+                                Console.Write("Введите количество проектов сотрудника\n" +
+                                              ">>> ");
+                                int projects = int.Parse(Console.ReadLine());
+                                Console.Write("Введите оригинальный номер сотрудника\n" +
+                                              ">>> ");
+                                int id = int.Parse(Console.ReadLine());
+                                c.CreateWorker(name, surname, age, salary, projects, id);
                             }
                             else if (answer == "2")
                             {
@@ -369,16 +405,13 @@ namespace HomeWork_8
                         else if (answer == "0")
                         {
                             xmlSerialize(file, c);
+                            xmlDeserialize(file);
                             Console.WriteLine($"Был создан файл с именем {file}.xml\nПока!)");
                             break;
                         }
                     }
                 }
                 else if (answer == "2")
-                {
-                    xmlDeserialize(file);
-                }
-                else if (answer == "3")
                 {
 
                     string json = JsonConvert.SerializeObject(c);
