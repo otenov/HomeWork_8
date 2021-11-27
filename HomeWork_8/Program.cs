@@ -13,6 +13,38 @@ namespace HomeWork_8
 {
     class Program
     {
+        static public int CheckData(string parameter)
+        {
+            while (true)
+            {
+                if (int.TryParse(parameter, out int sa))
+                {
+                    return sa;
+                }
+                else
+                {
+                    Console.Write("Вы ввели что-то не то.\nВведите данные занова\n>>> ");
+                    parameter = Console.ReadLine();
+                }
+            }
+        }
+
+        static public DateTime CheckDataD(string parameter)
+        {
+            while (true)
+            {
+                if (DateTime.TryParse(parameter, out DateTime sa))
+                {
+                    return sa;
+                }
+                else
+                {
+                    Console.Write("Вы ввели что-то не то.\nВведите данные занова\n>>> ");
+                    parameter = Console.ReadLine();
+                }
+            }
+        }
+
         //Сериализация и десериализация ручная
         static void xmlSerialize(string Path, Company c)
         {
@@ -170,6 +202,7 @@ namespace HomeWork_8
                         Console.Write("Департаменты - 1\n" +
                             "Сотрудники - 2\n" +
                             "Сохранение - 3\n" +
+                            "Информация о компании - 4\n" +
                             "Выход - 0\n" +
                             ">>> ");
                         answer = Console.ReadLine();
@@ -201,10 +234,29 @@ namespace HomeWork_8
                             }
                             else if (answer == "3")
                             {
-                                Console.Write("Введите название департамента, с которым хотите работать\n" +
-                                    ">>> ");
-                                string name = Console.ReadLine();
-                                Department d5 = c.FindDepartment(name);
+                                Department d5 = new Department();
+                                bool flag = true;
+                                string name;
+                                while (flag)
+                                {
+                                    if (c.departments.Count == 0)
+                                    {
+                                        Console.WriteLine("В компании еще не созданы департаменты.");
+                                        flag = false;
+                                        break;
+                                    }
+                                    Console.Write("Введите название департамента, с которым хотите работать\n" +
+                                                  ">>> ");
+                                    name = Console.ReadLine();
+                                    d5 = c.FindDepartment(name);
+                                    if (string.IsNullOrEmpty(d5.Name))
+                                    {
+                                        Console.WriteLine("Департамента с таким именем не существует");
+                                        continue;
+                                    }
+                                    else break;
+                                 }
+                                if (!flag) continue;
                                 Console.Write("Добавить сотрудника - 1\n" +
                                 "Удалить сотрудника - 2\n" +
                                 "Редактировать департамент - 3\n" +
@@ -227,48 +279,95 @@ namespace HomeWork_8
                                         string surname = Console.ReadLine();
                                         Console.Write("Введите возраст сотрудника\n" +
                                                       ">>> ");
-                                        int age = int.Parse(Console.ReadLine());
+                                        int age = CheckData(Console.ReadLine());
                                         Console.Write("Введите зарплату сотрудника\n" +
                                                       ">>> ");
-
-                                        int salary = int.Parse(Console.ReadLine());
+                                        int salary = CheckData(Console.ReadLine());
                                         Console.Write("Введите количество проектов сотрудника\n" +
                                                       ">>> ");
-                                        int projects = int.Parse(Console.ReadLine());
+                                        int projects = CheckData(Console.ReadLine());
                                         Console.Write("Введите оригинальный номер сотрудника\n" +
                                                       ">>> ");
-                                        int id = int.Parse(Console.ReadLine());
+                                       int id = CheckData(Console.ReadLine());
                                         Worker worker = c.CreateWorker(wName, surname, age, salary, projects, id, d5);
                                         d5.Add(worker);
                                     }
                                     else if (answer == "2")
                                     {
-                                        Console.Write("Введите id сотрудника, которого нужно добавить в департамент\n" +
-                                            ">>> ");
-                                        int id = int.Parse(Console.ReadLine());
-                                        Worker w = c.FindWorker(id);
-                                        if (!w.flagD)
+                                        while (true)
                                         {
-                                            int index = c.peoples.IndexOf(w);
-                                            c.peoples.RemoveAt(index);
-                                            w = d5.Add(w);
-                                            c.peoples.Insert(index, w);
+                                            if (c.peoples.Count == 0)
+                                            {
+                                                Console.WriteLine("В компании еще нет сотрудников.");
+                                                break;
+                                            }
+
+                                            Console.Write("Введите id сотрудника, которого нужно добавить в департамент\n" +
+                                                          ">>> ");
+                                            int id = CheckData(Console.ReadLine());
+                                            Worker w = c.FindWorker(id);
+
+                                            if (string.IsNullOrEmpty(w.Name))
+                                            {
+                                                Console.WriteLine("Сотрудника с таким id не существует");
+                                                continue;
+                                            }
+
+                                            bool check = false;
+                                            foreach(Worker wo in d5.workers)
+                                            if (wo.Id == w.Id)
+                                            {
+                                                    Console.WriteLine("Данный сотрудник уже находится в этом департаменте");
+                                                    check = true;
+                                                    break;
+                                            };
+
+                                            if (check) break;
+
+                                            if (!w.flagD)
+                                            {
+                                                int index = c.peoples.IndexOf(w);
+                                                c.peoples.RemoveAt(index);
+                                                w = d5.Add(w);
+                                                c.peoples.Insert(index, w);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Данный сотрудник прикреплен к другому департаменту, " +
+                                                $"а именно к департаменту {w.NameOfDepartment}");
+                                                break;
+                                            }
                                         }
-                                        else Console.WriteLine("Данный сотрудник прикреплен к другому департаменту, " +
-                                            $"а именно к департаменту {w.NameOfDepartment}");
                                     }
                                 }
                                 else if (answer == "2")
                                 {
-                                    Console.Write("Введите id сотрудника, которого нужно удалить из департамента\n" +
-                                        ">>> ");
-                                    int id = int.Parse(Console.ReadLine());
-                                    Worker w = c.FindWorker(id, d5);
-
-                                    int index = c.peoples.IndexOf(w);
-                                    c.peoples.RemoveAt(index);
-                                    w = d5.DeleteFromDepartment(w);
-                                    c.peoples.Insert(index, w);
+                                    while (true)
+                                    {
+                                        if (d5.workers.Count==0)
+                                        {
+                                            Console.WriteLine("В департаменте нет сотрудников для удаления");
+                                            break;
+                                        }
+                                        Console.Write("Введите id сотрудника, которого нужно удалить из департамента\n" +
+                                                      ">>> ");
+                                        int id = CheckData(Console.ReadLine());
+                                        Worker w = c.FindWorker(id, d5);
+                                        if (string.IsNullOrEmpty(w.Name))
+                                        {
+                                            Console.WriteLine("Сотрудника с таким id нет в данном департаменте!");
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            int index = c.peoples.IndexOf(w);
+                                            c.peoples.RemoveAt(index);
+                                            w = d5.DeleteFromDepartment(w);
+                                            c.peoples.Insert(index, w);
+                                            break;
+                                        }
+                                    }
                                 }
                                 else if (answer == "3")
                                 {
@@ -279,7 +378,7 @@ namespace HomeWork_8
                                     name = Console.ReadLine();
                                     Console.Write("Введите дату создания департамента\n" +
                                                   ">>> ");
-                                    DateTime date = Convert.ToDateTime(Console.ReadLine());
+                                    DateTime date = CheckDataD(Console.ReadLine());
                                     d5.Edit(name, date);
                                     c.departments.Insert(index, d5);
 
@@ -320,31 +419,36 @@ namespace HomeWork_8
                                 string surname = Console.ReadLine();
                                 Console.Write("Введите возраст сотрудника\n" +
                                               ">>> ");
-                                int age = int.Parse(Console.ReadLine());
+                                int age = CheckData(Console.ReadLine());
                                 Console.Write("Введите зарплату сотрудника\n" +
                                               ">>> ");
-                                int salary = int.Parse(Console.ReadLine());
+                                int salary = CheckData(Console.ReadLine());
                                 Console.Write("Введите количество проектов сотрудника\n" +
                                               ">>> ");
-                                int projects = int.Parse(Console.ReadLine());
+                                int projects = CheckData(Console.ReadLine());
                                 Console.Write("Введите оригинальный номер сотрудника\n" +
                                               ">>> ");
-                                int id = int.Parse(Console.ReadLine());
+                                int id = CheckData(Console.ReadLine());
                                 c.CreateWorker(name, surname, age, salary, projects, id);
                             }
                             else if (answer == "2")
                             {
                                 Console.Write("Введите id сотрудника, которого нужно удалить\n" +
                                         ">>> ");
-                                int id = int.Parse(Console.ReadLine());
+                                int id = CheckData(Console.ReadLine());
                                 c.DeleteWorker(id);
                             }
                             else if (answer == "3")
                             {
                                 Console.Write("Введите id сотрудника, которого нужно редактировать\n" +
                                         ">>> ");
-                                int id = int.Parse(Console.ReadLine());
+                                int id = CheckData(Console.ReadLine());
                                 Worker w = c.FindWorker(id);
+                                if (string.IsNullOrEmpty(w.Name))
+                                {
+                                    Console.WriteLine("Сотрудника с таким id не существует");
+                                    continue;
+                                }
                                 int indexD = 0, indexP = c.peoples.IndexOf(w);
                                 if (w.flagD)
                                 {
@@ -362,13 +466,13 @@ namespace HomeWork_8
                                 string surname = Console.ReadLine();
                                 Console.Write("Введите возраст сотрудника\n" +
                                               ">>> ");
-                                int age = int.Parse(Console.ReadLine());
+                                int age = CheckData(Console.ReadLine());
                                 Console.Write("Введите зарплату сотрудника\n" +
                                               ">>> ");
-                                int salary = int.Parse(Console.ReadLine());
+                                int salary = CheckData(Console.ReadLine());
                                 Console.Write("Введите количество проектов сотрудника\n" +
                                               ">>> ");
-                                int projects = int.Parse(Console.ReadLine());
+                                int projects = CheckData(Console.ReadLine());
 
                                 w.Edit(name, surname, age, salary, projects);
                                 c.peoples.Insert(indexP, w);
@@ -401,6 +505,21 @@ namespace HomeWork_8
                                         $"{item.Name}\n" +
                                         $"{item.Id}");
                             }
+                        }
+                        else if (answer == "4")
+                        {
+                            foreach (var item in c.departments)
+                            {
+                                Console.WriteLine($"Название департамента - {item.Name}\n" +
+                                    $"Дата создания - {item.Date}\n" +
+                                    $"");
+                                if (item.workers.Count > 0)
+                                {
+                                    Console.WriteLine($"Сотрудники департамента {item.Name}:");
+                                    c.ReadWorkers(item);
+                                }
+                            }
+                            c.ReadWorkersWithoutDepartment();
                         }
                         else if (answer == "0")
                         {

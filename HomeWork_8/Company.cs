@@ -104,10 +104,16 @@ namespace HomeWork_8
         /// <returns>Департамент с указанным именем</returns>
         public Department FindDepartment(string name)
         {
+            bool flag = false;
             Department d = new Department();
             foreach (var item in departments)
             {
-                if (item.Name.ToLower() == name.ToLower()) d = item;
+                if (item.Name.ToLower() == name.ToLower())
+                {
+                    d = item;
+                    flag = true;
+                    break;
+                }
             }
             return d;
         }
@@ -193,6 +199,31 @@ namespace HomeWork_8
             }
         }
 
+
+        public void ReadWorkersWithoutDepartment()
+        {
+            List<Worker> list = new List<Worker>(); 
+            foreach (var item in peoples)
+            {
+                if (!item.flagD)
+                    list.Add(item);
+            }
+            if (list.Count>0)
+            {
+                Console.WriteLine("Сотрудники без департамента:");
+                foreach (var item in list)
+                {
+                    Console.WriteLine($"Имя сотрудника - {item.Name}\n" +
+                                      $"Фамилия - {item.Surname}\n" +
+                                      $"Возраст - {item.Age}\n" +
+                                      $"Зарплата - {item.Salary}\n" +
+                                      $"Количество проектов - {item.Projects}\n" +
+                                      $"Id - {item.Id}\n" +
+                                      $"");
+                }
+
+            }
+        }
 
 
 
